@@ -2,7 +2,8 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #000000;
+  --border-color: #000000;
 }
 
 @theme inline {
@@ -14,13 +15,24 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff; /* Force light/monochrome for now or distinct high contrast dark */
+    --foreground: #000000;
+    --border-color: #000000;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Courier New', Courier, monospace; /* Monospaced for a raw feel */
+}
+
+/* Custom Utilities for Monochrome */
+@layer utilities {
+  .mono-border {
+    border: 2px solid var(--border-color);
+  }
+  .mono-button {
+    @apply bg-black text-white px-4 py-2 hover:bg-white hover:text-black border-2 border-black transition-colors font-bold uppercase;
+  }
 }

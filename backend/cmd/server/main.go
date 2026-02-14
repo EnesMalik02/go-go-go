@@ -5,6 +5,7 @@ import (
 	v1 "gin-tutorial/api/v1"
 	"gin-tutorial/config"
 	"gin-tutorial/internal/item"
+	"gin-tutorial/internal/message"
 	"gin-tutorial/internal/user"
 	"gin-tutorial/pkg/logger"
 
@@ -22,14 +23,17 @@ func main() {
 	// 2. Initialize Repositories
 	itemRepo := item.NewRepository()
 	userRepo := user.NewRepository()
+	msgRepo := message.NewRepository()
 
 	// 3. Initialize Services (Business Logic)
 	itemService := item.NewService(itemRepo)
 	userService := user.NewService(userRepo)
+	msgService := message.NewService(msgRepo)
 
 	// 4. Initialize Handlers (API Layer)
 	itemHandler := v1.NewItemHandler(itemService)
 	userHandler := v1.NewUserHandler(userService)
+	msgHandler := v1.NewMessageHandler(msgService)
 
 	// 5. Setup Router
 	r := gin.Default()
@@ -47,6 +51,7 @@ func main() {
 	apiGroup := r.Group("/api/v1")
 	itemHandler.RegisterRoutes(apiGroup)
 	userHandler.RegisterRoutes(apiGroup)
+	msgHandler.RegisterRoutes(apiGroup)
 
 	// 7. Start Server
 	serverAddr := fmt.Sprintf(":%s", cfg.Port)
